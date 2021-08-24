@@ -86,13 +86,6 @@ namespace CopyDigital
             try
             {
                 GetListFoldersAndFiels(DialogCopyFrom.SelectedPath);
-
-                foreach(var item in ListFiles)
-                {
-                    if (CheckRules(item))
-                        throw new Exception("Нет прав доступа.");
-                }
-
                 await Task.Run(() => CopyFaiels(Helpers));
             }
             catch(Exception ex)
@@ -187,20 +180,6 @@ namespace CopyDigital
 
             foreach (var item in Directory.GetDirectories(folder))
                 Directory.Delete(item);
-        }
-
-        private bool CheckRules(string file)
-        {
-            using(FileStream stream = new FileStream(file, FileMode.Open, FileAccess.ReadWrite))
-            {
-                FileSecurity security = stream.GetAccessControl();
-                
-                foreach(FileSystemAccessRule item in security.GetAccessRules(true, true, typeof(NTAccount)))
-                    return item.AccessControlType == AccessControlType.Allow ? true : false;
-            }
-
-
-            return false;
         }
     }
 }
