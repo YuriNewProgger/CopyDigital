@@ -181,5 +181,5 @@ namespace CopyDigital
             foreach (var item in Directory.GetDirectories(folder))
                 Directory.Delete(item);
         }
-    }
+    }//Круто
 }
